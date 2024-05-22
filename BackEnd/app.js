@@ -71,7 +71,7 @@ app.post('/registrar_usuario', async (req, res) => {
     }
 });
 
-app.get('/autenticar', async (req, res) => {
+app.post('/autenticar', async (req, res) => {
     try {
         const { usuario, password } = req.body;
 

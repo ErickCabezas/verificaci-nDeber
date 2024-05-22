@@ -12,7 +12,7 @@ app.use(cors());
 //app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-app.get('/uuarios_registrados',async (req, res)=>{
+app.get('/usuarios_registrados',async (req, res)=>{
     try{
         const ourdatos =  await modeloUsuarios.find()
         res.send(ourdatos)

@@ -43,32 +43,37 @@ async function usuarioRegistrado(usuario) {
 
 app.post('/registrar_usuario', async (req, res) => {
     try {
-        const { usuario, password, nombre, apellido, email} = req.body;
+        const { usuario, password, nombre, apellido, email } = req.body;
 
-        const userExiste= await usuarioRegistrado(usuario);
+        // Validar que el email contenga un arroba (@)
+        if (!email.includes('@')) {
+            return res.status(400).json({ respuesta: 'Correo electrónico no válido. Debe contener un "@"' });
+        }
 
-        if(userExiste!=null){
+        const userExiste = await usuarioRegistrado(usuario);
+
+        if (userExiste != null) {
             res.status(201).json({ respuesta: 'Nombre de usuario existente' });
-        }else{
+        } else {
             // Crear una instancia del modelo de usuario con los datos
-        const newUser = new modeloUsuarios({
-            usuario: usuario,
-            password: password,
-            nombre: nombre,
-            apellido: apellido,
-            email: email
-        }); 
-        
-        // Guardar la instancia en la base de datos
-        console.log(await newUser.save());
+            const newUser = new modeloUsuarios({
+                usuario: usuario,
+                password: password,
+                nombre: nombre,
+                apellido: apellido,
+                email: email
+            });
 
-        // Enviar una respuesta exitosa
-        res.status(201).json({ respuesta: 'Usuario registrado con éxito' });
+            // Guardar la instancia en la base de datos
+            console.log(await newUser.save());
+
+            // Enviar una respuesta exitosa
+            res.status(201).json({ respuesta: 'Usuario registrado con éxito' });
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ respuesta: 'Error al registrar usuario' });
-    }
+        res.status(500).json({ respuesta: 'Error al registrar usuario' });
+    }
 });
 
 app.get('/autenticar', async (req, res) => {

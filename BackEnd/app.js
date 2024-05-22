@@ -11,8 +11,8 @@ app.use(cors());
 // Servir archivos estáticos desde el directorio 'public' para probar con el html
 //app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
-
-app.get('/usuarios_registrados',async (req, res)=>{
+//ERROR
+app.get('/uusuarios_registrados',async (req, res)=>{
     try{
         const ourdatos =  await modeloUsuarios.find()
         res.send(ourdatos)
@@ -44,7 +44,6 @@ async function usuarioRegistrado(usuario) {
 app.post('/registrar_usuario', async (req, res) => {
     try {
         const { usuario, password, nombre, apellido, email} = req.body;
-
         const userExiste= await usuarioRegistrado(usuario);
 
         if(userExiste!=null){
@@ -63,7 +62,7 @@ app.post('/registrar_usuario', async (req, res) => {
         console.log(await newUser.save());
 
         // Enviar una respuesta exitosa
-        res.status(201).json({ respuesta: 'Usuario registrado con éxito' });
+        res.status  (201).json({ respuesta: 'Usuario registrado con éxito' });
         }
     } catch (error) {
         console.error(error);
@@ -78,7 +77,8 @@ app.get('/autenticar', async (req, res) => {
         const userExiste= await usuarioRegistrado(usuario);
 
         if(userExiste!=null) {
-            if(userExiste.password === password){
+            //FALLA
+            if(userExiste.password != password){
                 res.status(201).json({ 
                     respuesta: 'Inicio de sesión correcto',
                     usuario:userExiste 

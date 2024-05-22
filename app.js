@@ -43,7 +43,7 @@ async function usuarioRegistrado(usuario) {
 
 app.post('/registrar_usuario', async (req, res) => {
     try {
-        const { usuario, password } = req.body;
+        const { usuario, password, nombre, apellido, email} = req.body;
 
         const userExiste= await usuarioRegistrado(usuario);
 
@@ -53,7 +53,10 @@ app.post('/registrar_usuario', async (req, res) => {
             // Crear una instancia del modelo de usuario con los datos
         const newUser = new modeloUsuarios({
             usuario: usuario,
-            password: password
+            password: password,
+            nombre: nombre,
+            apellido: apellido,
+            email: email
         }); 
         
         // Guardar la instancia en la base de datos

@@ -6,6 +6,15 @@ const ModeloUsuarios= new mongoose.Schema({
     },
     password: {
         type: String,
+    },
+    nombre: {
+        type: String,
+    },
+    apellido: {
+        type: String,
+    },
+    email: {
+        type: String,
     }
 },
 {

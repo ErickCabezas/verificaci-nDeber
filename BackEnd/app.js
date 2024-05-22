@@ -53,7 +53,7 @@ app.post('/registrar_usuario', async (req, res) => {
         const userExiste = await usuarioRegistrado(usuario);
 
         if (userExiste != null) {
-            res.status(201).json({ respuesta: 'Nombre de usuario existente' });
+            res.status(401).json({ respuesta: 'Nombre de usuario existente' });
         } else {
             // Crear una instancia del modelo de usuario con los datos
             const newUser = new modeloUsuarios({
@@ -89,10 +89,10 @@ app.post('/autenticar', async (req, res) => {
                     usuario:userExiste 
                 });
             }else{
-                res.status(201).json({ respuesta: 'Contraseña incorrecta' });
+                res.status(401).json({ respuesta: 'Credenciales incorrectas' });
             }
         }else{
-            res.status(201).json({ respuesta: 'Usuario no registrado' });
+            res.status(401).json({ respuesta: 'Credenciales incorrectas' });
         }
     } catch (error) {
         console.error(error);

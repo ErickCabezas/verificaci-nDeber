@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { IoArrowBackCircleOutline } from "react-icons/io5";
+import Swal from 'sweetalert2'
 
 function FormularioRestro({ handleCerrarFormularioRegistro }) {
 
@@ -28,40 +29,50 @@ function FormularioRestro({ handleCerrarFormularioRegistro }) {
   }
 
   const handleRegistrar = (e) => {
-
     const datos = {
       usuario: usuario,
       password: contrasena,
       nombre: nombre,
       apellido: apellido,
       email: correo
-    }
+    };
 
-    e.preventDefault()
+    e.preventDefault();
     if (validarFormulario()) {
-      fetch('http://26.162.12.140:3000/registrar_usuario', ({
+      fetch('http://26.162.12.140:3000/registrar_usuario', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(datos)
-      }))
-        .then(response => response.json())
+      })
+        .then(response => {
+          if (!response.ok) {
+            if (response.status === 401) {
+              throw new Error('Unauthorized');
+            }
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
         .then(data => {
-          console.log(data)
+          console.log(data);
           Swal.fire({
             title: 'Registro exitoso',
             icon: 'success'
-          })
+          });
         })
         .catch(error => {
-          console.error('Error:', error)
+          console.error('Error:', error);
+          let errorMessage = 'Error al registrar';
+          if (error.message === 'Unauthorized') {
+            errorMessage = 'El usuario ya existe';
+          }
           Swal.fire({
-            title: 'Error al registrar',
-            text: 'El usuario ya existe',
+            title: errorMessage,
             icon: 'error'
-          })
-        })
+          });
+        });
     }
   }
 

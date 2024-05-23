@@ -21,7 +21,6 @@ function App() {
   }
 
   const handleIniciarSesion = (e) => {
-  
     const datos = {
       usuario: usuario,
       password: contrasena
@@ -36,19 +35,30 @@ function App() {
         },
         body: JSON.stringify(datos)
       })
-        .then(response => response.json())
+        .then(response => {
+          if (!response.ok) {
+            if (response.status === 401) {
+              throw new Error('Unauthorized')
+            }
+            throw new Error('Network response was not ok')
+          }
+          return response.json()
+        })
         .then(data => {
           console.log(data)
           Swal.fire({
             title: 'Inicio de sesión exitoso',
-            icon: 'success'            
+            icon: 'success'
           })
         })
         .catch(error => {
           console.error('Error:', error)
+          let errorMessage = 'Error al iniciar sesión'
+          if (error.message === 'Unauthorized') {
+            errorMessage = 'Usuario o contraseña incorrectos'
+          }
           Swal.fire({
-            title: 'Error al iniciar sesión',
-            text: 'Usuario o contraseña incorrectos',
+            title: errorMessage,
             icon: 'error'
           })
         })

@@ -51,4 +51,4 @@ Tomando los dos defectos, no nos olvidemos que la falla se muestra en tiempo de 
 Primer fallo es que el usuario se haya podido Loguear correctamente, el mensaje de "Logueo correcto" también es una falla. Lo ideal seria controlar este tipo de situaciones con excepciones y con bases de datos.
 
 
-Segunda falla, el usuario pudo registrarse correctamente aunque se ha registrado previamente, no existio ningun control para evitar aquello, esto producira una redundancia grande. Lo ideal seria mantener algun control en la insersión de registros de la base de datos. Adicionalmente, el mensaje que va de la mano con el registro es incorrecto.
+Segunda falla, el usuario pudo registrarse correctamente aunque se ha registrado previamente, no existio ningun control para evitar aquello, esto producira una redundancia grande. Lo ideal seria mantener algun control en la inserción de registros de la base de datos. Adicionalmente, el mensaje que va de la mano con el registro es incorrecto.
